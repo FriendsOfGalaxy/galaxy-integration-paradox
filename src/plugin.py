@@ -47,16 +47,18 @@ class ParadoxPlugin(Plugin):
         if stored_credentials:
             stored_cookies = pickle.loads(bytes.fromhex(stored_credentials['cookie_jar']))
             self._http_client.authenticate_with_cookies(stored_cookies)
-            self.prepare_sku = asyncio.create_task(self.paradox_client.prepare_sku())
+            self._http_client.set_auth_lost_callback(self.lost_authentication)
             acc_id = await self.paradox_client.get_account_id()
+            self.prepare_sku = asyncio.create_task(self.paradox_client.prepare_sku())
             return Authentication(str(acc_id), 'Paradox')
         if not stored_credentials:
             return NextStep("web_session", AUTH_PARAMS)
 
     async def pass_login_credentials(self, step, credentials, cookies):
         self._http_client.authenticate_with_cookies(cookies)
-        self.prepare_sku = asyncio.create_task(self.paradox_client.prepare_sku())
+        self._http_client.set_auth_lost_callback(self.lost_authentication)
         acc_id = await self.paradox_client.get_account_id()
+        self.prepare_sku = asyncio.create_task(self.paradox_client.prepare_sku())
         return Authentication(str(acc_id), 'Paradox')
 
     async def get_owned_games(self):
@@ -176,10 +178,10 @@ class ParadoxPlugin(Plugin):
     def shutdown(self):
         asyncio.create_task(self._http_client.close())
 
-    def prepare_os_compatibility_context(self, game_ids: List[str]) -> Any:
+    async def prepare_os_compatibility_context(self, game_ids: List[str]) -> Any:
         return None
 
-    def get_os_compatibility(self, game_id: str, context: Any) -> Optional[OSCompatibility]:
+    async def get_os_compatibility(self, game_id: str, context: Any) -> Optional[OSCompatibility]:
         return OSCompatibility.Windows
 
 

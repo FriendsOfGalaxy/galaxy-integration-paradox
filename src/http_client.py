@@ -1,6 +1,6 @@
 
 from galaxy.http import HttpClient
-
+from galaxy.api.errors import InvalidCredentials
 import aiohttp
 import logging as log
 from yarl import URL
@@ -42,7 +42,6 @@ class AuthenticatedHttpClient(HttpClient):
     def set_auth_lost_callback(self, callback):
         self._auth_lost_callback = callback
 
-
     def get_credentials(self):
         creds = {}
         creds['cookie_jar'] = pickle.dumps([c for c in self._cookie_jar]).hex()
@@ -53,8 +52,13 @@ class AuthenticatedHttpClient(HttpClient):
             return await self.request(method, *args, **kwargs)
         except Exception as e:
             log.warning(f"Request failed with {repr(e)}, attempting to refresh credentials")
-            #await self.refresh_credentials()
+        try:
+            await self.refresh_credentials()
             return await self.request(method, *args, **kwargs)
+        except Exception as e:
+            log.error(f"Refresh workflow failed with {repr(e)}")
+            self._auth_lost_callback()
+            raise InvalidCredentials()
 
     def authenticate_with_cookies(self, cookies):
         cookiez = {}
@@ -67,6 +71,15 @@ class AuthenticatedHttpClient(HttpClient):
         self.token = cookiez['SESSION_TOKEN']
         self._store_credentials(self.get_credentials())
 
+    async def refresh_credentials(self):
+        data = {'Authorization': f'{{"session":{{"token":"{self.token}"}}}}',
+                'content-type': 'application/json'}
+        payload = {}
+        await self.request('PUT', 'https://api.paradox-interactive.com/accounts/sessions/accounts', headers=data, json=payload)
+        for cookie in self._cookie_jar:
+            if cookie['key'] == 'SESSION_TOKEN':
+                self.token = cookie['value']
+        self._store_credentials(self.get_credentials())
 
 
 
