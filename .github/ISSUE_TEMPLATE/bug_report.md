@@ -7,17 +7,21 @@ assignees: ''
 
 ---
 
+**Before start**
+- check if your issue is known: https://github.com/FriendsOfGalaxy/galaxy-integration-paradox/wiki/Common-problems
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
 **To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. See error
+<Remove this section if it's obvious>
+Steps to reproduce the behavior, for example:
+1. Log in with account that have 5k games
+2. Wait 2 minutes
+3. See that plugin has crashed
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
 **Attached logs**
-Check ho to do it properly: https://github.com/FriendsOfGalaxy/galaxy-integration-paradox/wiki/Log-files
+Check how to do it properly: https://github.com/FriendsOfGalaxy/galaxy-integration-paradox/wiki/Log-files
