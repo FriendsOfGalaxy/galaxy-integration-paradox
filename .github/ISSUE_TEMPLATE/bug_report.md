@@ -19,5 +19,5 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Attach logs**
-See [wiki](https://github.com/FriendsOfGalaxy/galaxy-integration-paradox/wiki/Log-files) how to do it
+**Attached logs**
+Check ho to do it properly: https://github.com/FriendsOfGalaxy/galaxy-integration-paradox/wiki/Log-files
