@@ -15,9 +15,12 @@ class ParadoxClient:
     async def get_owned_games(self):
         data = {'Authorization': f'{{"session":{{"token":"{self.http_client.token}"}}}}',
                 'content-type': 'application/json'}
+        skus = await self.http_client.do_request('GET', 'https://accounts.paradoxplaza.com/api/skus',
+                                                 headers={'content-type': 'application/json'})
         response = await self.http_client.do_request('GET', 'https://api.paradox-interactive.com/inventory/products',
                                                      headers=data)
 
+        skus = await skus.json()
         response = await response.json()
 
         owned_products = []
@@ -26,9 +29,10 @@ class ParadoxClient:
                 for platform in platforms:
                     for game in platforms[platform]:
                         log.info(game)
-                        if game['sku'] and game['title'] and game['product_type'] and "paradox builds" in game['platforms']:
-                            owned_products.append({'sku': game['sku'],
-                                                   'title': game['title'],
-                                                   'type': game['product_type']})
+                        if game['sku'] and game['title'] and game['product_type'] and game['sku'] in skus:
+                            if 'paradoxLauncher' in skus[game['sku']]['platform']:
+                                owned_products.append({'sku': game['sku'],
+                                                       'title': game['title'],
+                                                       'type': game['product_type']})
         log.info(owned_products)
         return owned_products
