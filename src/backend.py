@@ -41,5 +41,6 @@ class ParadoxClient:
                                 owned_products.append({'sku': game['sku'],
                                                        'title': game['title'],
                                                        'type': game['product_type']})
+
         log.info(owned_products)
         return owned_products
