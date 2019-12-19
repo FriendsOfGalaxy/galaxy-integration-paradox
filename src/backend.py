@@ -35,8 +35,9 @@ class ParadoxClient:
                 for platform in platforms:
                     for game in platforms[platform]:
                         log.info(game)
-                        if game['sku'] and game['title'] and game['product_type'] and game['sku'] in skus:
-                            if 'paradoxLauncher' in skus[game['sku']]['platform']:
+                        if game['sku'] and game['title'] and game['product_type']:
+                            if (game['sku'] in skus and 'paradoxLauncher' in skus[game['sku']]['platform']) \
+                                    or "paradox builds" in game['platforms']:
                                 owned_products.append({'sku': game['sku'],
                                                        'title': game['title'],
                                                        'type': game['product_type']})
