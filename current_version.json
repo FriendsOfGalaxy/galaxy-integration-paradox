@@ -1,12 +1,12 @@
 {
-    "tag_name": "v0.4",
+    "tag_name": "v0.5",
     "assets": [
         {
-            "browser_download_url": "https://github.com/FriendsOfGalaxy/galaxy-integration-paradox/releases/download/v0.4/windows.zip",
+            "browser_download_url": "https://github.com/FriendsOfGalaxy/galaxy-integration-paradox/releases/download/v0.5/windows.zip",
             "name": "windows.zip"
         },
         {
-            "browser_download_url": "https://github.com/FriendsOfGalaxy/galaxy-integration-paradox/releases/download/v0.4/macos.zip",
+            "browser_download_url": "https://github.com/FriendsOfGalaxy/galaxy-integration-paradox/releases/download/v0.5/macos.zip",
             "name": "macos.zip"
         }
     ]
