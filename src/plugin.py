@@ -189,7 +189,7 @@ class ParadoxPlugin(Plugin):
         if not self.owned_games_called or (sys.platform == 'win32' and not self.local_games_called):
             return
 
-        if self.tick_counter % 60 == 0:
+        if self.tick_counter % 300 == 0:
             if not self.update_owned_games_task or self.update_owned_games_task.done():
                 self.update_owned_games_task = asyncio.create_task(self.update_owned_games())
 

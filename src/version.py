@@ -1,6 +1,9 @@
-__version__ = "0.6.1"
+__version__ = "0.6.2"
 
 __changelog__ = {
+    "0.6.2": '''
+        - Decrese refreshing owned games ratio to make 5 times less API calls
+    ''',
     "0.6.1": '''
         - Security update: bump psutil to 5.6.6
     ''',
